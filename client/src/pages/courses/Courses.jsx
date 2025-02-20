@@ -1,10 +1,15 @@
-// import React from 'react'
-// import './courses.css'
+import React from 'react'
+import './courses.css'
+import { CourseData } from '../../context/CourseContext'
 
-// const Courses = () => {
-//   return (
-//     <div>Courses</div>
-//   )
-// }
+const Courses = () => {
 
-// export default Courses
+  const { courses } = CourseData();
+  console.log(courses);
+  
+  return (
+    <div>Courses</div>
+  )
+}
+
+export default Courses;

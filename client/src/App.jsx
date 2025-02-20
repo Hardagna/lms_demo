@@ -9,10 +9,11 @@ import Verify from './pages/auth/Verify';
 import About from './pages/about/About';
 import Profile from './pages/profile/Profile';
 import { UserData } from './context/UserContext';
+import Courses from './pages/courses/Courses';
 
 const App = () => {
 
-  const { isAuth, user, loading } = UserData();
+  const { isAuth, user } = UserData();
   return (
   <>
   <BrowserRouter>
@@ -20,6 +21,7 @@ const App = () => {
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/about" element={<About />} />
+      <Route path='/courses' element={ <Courses /> } />
       <Route path='profile' element={ isAuth? <Profile user = { user }  />:<Login />  } />
       <Route path="/login" element={ isAuth? <Home />:<Login />} />
       <Route path="/register" element={ isAuth? <Home />:<Register />} />
