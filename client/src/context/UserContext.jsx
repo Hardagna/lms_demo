@@ -71,12 +71,12 @@ export const UserContextProvider = ({ children }) => {
         }
     }
 
-    async function verifyCode ( code, navigate ) {
+    async function verifyCode ( otp, navigate ) {
         setBtnLoading(true);
         const activationToken = localStorage.getItem('activationToken');
 
         try {
-            const { data } = await axios.post(`${server}/api/users/user/verify`,{ code, activationToken });
+            const { data } = await axios.post(`${server}/api/users/user/verify`,{ otp, activationToken });
 
             toast.success(data.message);
             navigate('/login');
