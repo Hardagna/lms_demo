@@ -25,9 +25,68 @@ export const UserContextProvider = ({ children }) => {
             navigate('/');
         }
         catch (error) {
-            setLoading(false);
+            setBtnLoading(false);
             setIsAuth(false);
             toast.error(error.response.data.message);
+            // console.error(error);
+        }
+    }
+
+    // async function loginUser(email, password, navigate) {
+    //     setBtnLoading(true);
+    //     try {
+    //         const { data } = await axios.post(`${server}/api/users/user/login`, { email, password });
+    //         toast.success(data.message);
+    //         localStorage.setItem('token', data.token);
+    //         console.log('Token stored:', data.token);
+    //         setUser(data.user);
+    //         setIsAuth(true);
+    //         setBtnLoading(false);
+    //         navigate('/');
+    //     }
+    //     catch (error) {
+    //         setBtnLoading(false);
+    //         setIsAuth(false);
+    //         toast.error(error.response.data.message);
+    //     }
+    // }
+
+    async function registerUser ( name, email, password, navigate ) {
+        setBtnLoading(true);
+        try {
+            const { data } = await axios.post(`${server}/api/users/user/register`,{ name, email, password });
+
+            toast.success(data.message);
+            localStorage.setItem('activationToken', data.activationToken);
+            // setUser(data.user);
+            // setIsAuth(true);
+            setBtnLoading(false);
+            navigate('/verify');
+        }
+        catch (error) {
+            setBtnLoading(false);
+            // setIsAuth(false);
+            toast.error(error.response.data.message);
+            // console.error(error);
+        }
+    }
+
+    async function verifyCode ( code, navigate ) {
+        setBtnLoading(true);
+        const activationToken = localStorage.getItem('activationToken');
+
+        try {
+            const { data } = await axios.post(`${server}/api/users/user/verify`,{ code, activationToken });
+
+            toast.success(data.message);
+            navigate('/login');
+            localStorage.clear();
+            setBtnLoading(false);
+        }
+        catch (error) {
+            // setIsAuth(false);
+            toast.error(error.response.data.message);
+            setBtnLoading(false);
             // console.error(error);
         }
     }
@@ -45,18 +104,43 @@ export const UserContextProvider = ({ children }) => {
         }
         catch (error) {
             // setIsAuth(false);
-            setLoading(false);
             console.error(error);
+            setLoading(false);
         }
     };
+
+    // async function fetchUser() {
+    //     try {
+    //         const token = localStorage.getItem('token');
+    //         if (!token) {
+    //             console.error("No token found, user is not authenticated.");
+    //             setLoading(false);
+    //             return;
+    //         }
     
+    //         const { data } = await axios.get(`${server}/api/users/user/me`, {
+    //             headers: {
+    //                 token: localStorage.getItem('token'),
+    //             }
+    //         });
+    
+    //         setUser(data);
+    //         setIsAuth(true);
+    //     } catch (error) {
+    //         console.error("Error fetching user:", error.response ? error.response.data : error.message);
+    //         setIsAuth(false);
+    //     } finally {
+    //         setLoading(false);
+    //     }
+    // }
+        
 
     useEffect(() => {
         fetchUser();
     }, []);
 
     return ( 
-    <UserContext.Provider value={{ user, setUser, setIsAuth, isAuth, loginUser, btnLoading, loading }}>
+    <UserContext.Provider value={{ user, setUser, isAuth, setIsAuth, btnLoading, loginUser, loading, registerUser, verifyCode }}>
         {children}
         <Toaster />
     </UserContext.Provider>

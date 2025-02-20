@@ -7,8 +7,9 @@ import { useNavigate } from 'react-router-dom';
 
 const Profile = ({user}) => {
   const {setIsAuth, setUser} = UserData();
-  const navigate = useNavigate();
 
+  const navigate = useNavigate();
+  
   const logoutHandler = () => {
     localStorage.clear();
     setIsAuth(false);
@@ -19,14 +20,6 @@ const Profile = ({user}) => {
 
   return (
     <div>
-        {/* <div className="profile">
-            <h2>My account</h2>
-            <div className="account-details">
-                <p><strong>Name: Hardagna Mehta</strong></p>
-                <p><strong>Email: hbjm37@gmail.com</strong></p>
-                <button className="commonBtn"><MdSpaceDashboard />Dashboard</button>
-            </div>  
-        </div> */}
         {user && (
             <div className="profile">
                 <h2>My account</h2>

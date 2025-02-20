@@ -2,7 +2,7 @@ import React from 'react';
 import './header.css';
 import { Link } from 'react-router-dom';
 
-const Header = ({isAuth, user }) => {
+const Header = ({ isAuth }) => {
   return (
     <header>
         <div className="logo">lms</div>
@@ -10,7 +10,6 @@ const Header = ({isAuth, user }) => {
             <Link to="/">Home</Link>
             <Link to="/courses">Courses</Link>
             <Link to="/about">About</Link>
-            {/* <Link to="/profile">Profile</Link> */}
             {isAuth ? <Link to="/profile">Profile</Link> : <Link to="/login">Login</Link>}
         </div>
     </header>

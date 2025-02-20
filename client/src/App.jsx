@@ -6,25 +6,24 @@ import Header from './components/header/Header';
 import Login from './pages/auth/Login';
 import Register from './pages/auth/Register';
 import Verify from './pages/auth/Verify';
-// import Footer from './components/footer/Footer'
 import About from './pages/about/About';
 import Profile from './pages/profile/Profile';
 import { UserData } from './context/UserContext';
 
 const App = () => {
 
-  const { isAuth } = UserData();
+  const { isAuth, user, loading } = UserData();
   return (
   <>
   <BrowserRouter>
-    <Header isAuth = {isAuth} />
+    <Header isAuth={ isAuth } />
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/about" element={<About />} />
-      <Route path='profile' element={isAuth?<Profile user = {user} />:<Login/>} />
-      <Route path="/login" element={isAuth?<Home/>:<Login />} />
-      <Route path="/register" element={isAuth?<Home/>:<Register />} />
-      <Route path="/verify" element={isAuth?<Home/>:<Verify />} />
+      <Route path='profile' element={ isAuth? <Profile user = { user }  />:<Login />  } />
+      <Route path="/login" element={ isAuth? <Home />:<Login />} />
+      <Route path="/register" element={ isAuth? <Home />:<Register />} />
+      <Route path="/verify" element={ isAuth? <Home />:<Verify />} />
     </Routes>
   </BrowserRouter>
   </>

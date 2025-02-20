@@ -37,7 +37,7 @@ export const register = async (req, res) => {
 
 export const verifyUser = async (req, res) => {
     try {
-        const { activationToken, otp } = req.body;
+        const { otp, activationToken } = req.body;
         const verify = jwt.verify(activationToken, process.env.ACTIVATION);
         
         if (!verify) {
@@ -96,3 +96,16 @@ export const myProfile = async (req, res) => {
         console.log(error);
     }
 };
+
+// export const myProfile = async (req, res) => {
+//     try {
+//         const user = await User.findById(req.user.id).select('-password');
+//         if (!user) {
+//             return res.status(404).json({ message: 'User not found' });
+//         }
+//         res.json({ user });
+//     }
+//     catch (error) {
+//         res.status(500).json({ message: error.message });
+//     }
+// };
