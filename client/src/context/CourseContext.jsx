@@ -4,11 +4,12 @@ import { server } from '../main';
 
 const CourseContext = createContext();
 
-export const CourseContextProvideer = ({ children }) => {
+export const CourseContextProvider = ({ children }) => {
     
     const [courses, setCourses] = useState([]);
     // const [loading, setLoading] = useState(true);
     // const [error, setError] = useState(null);
+    const [course, setCourse] = useState([]);
 
     async function fetchCourses() {
         
@@ -23,12 +24,36 @@ export const CourseContextProvideer = ({ children }) => {
 
     }
 
+    async function fetchCourse( id ) {
+        
+        try {
+
+            const { data } = await axios.get(`${server}/api/courses/course/${id}`);
+            setCourse(data.course);
+        } catch (error) {
+            console.error(error);
+            // setError(error);
+        }
+
+    }
+
+    // async function fetchMyCourse() {
+        
+    //     try {
+
+    //         const { data } = await axios.get(`${server}/api/courses/course/my`);
+    //         setCourses(data.courses);
+    //     } catch (error) {
+    //         console.error(error);
+    //         // setError(error);
+    //     }
+
     useEffect(() => {
         fetchCourses();
     }, []);
 
   return (
-    <CourseContext.Provider value={{ courses, fetchCourses }}>
+    <CourseContext.Provider value={{ courses, fetchCourses, fetchCourse }}>
       {children}
     </CourseContext.Provider>
   )
