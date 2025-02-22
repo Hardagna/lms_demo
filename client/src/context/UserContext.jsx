@@ -28,7 +28,7 @@ export const UserContextProvider = ({ children }) => {
             setBtnLoading(false);
             setIsAuth(false);
             toast.error(error.response.data.message);
-            // console.error(error);
+            // console.log(error);
         }
     }
 
@@ -67,7 +67,7 @@ export const UserContextProvider = ({ children }) => {
             setBtnLoading(false);
             // setIsAuth(false);
             toast.error(error.response.data.message);
-            // console.error(error);
+            // console.log(error);
         }
     }
 
@@ -87,7 +87,7 @@ export const UserContextProvider = ({ children }) => {
             // setIsAuth(false);
             toast.error(error.response.data.message);
             setBtnLoading(false);
-            // console.error(error);
+            // console.log(error);
         }
     }
 
@@ -104,7 +104,7 @@ export const UserContextProvider = ({ children }) => {
         }
         catch (error) {
             // setIsAuth(false);
-            console.error(error);
+            console.log(error);
             setLoading(false);
         }
     };
@@ -113,7 +113,7 @@ export const UserContextProvider = ({ children }) => {
     //     try {
     //         const token = localStorage.getItem('token');
     //         if (!token) {
-    //             console.error("No token found, user is not authenticated.");
+    //             console.log("No token found, user is not authenticated.");
     //             setLoading(false);
     //             return;
     //         }
@@ -127,7 +127,7 @@ export const UserContextProvider = ({ children }) => {
     //         setUser(data);
     //         setIsAuth(true);
     //     } catch (error) {
-    //         console.error("Error fetching user:", error.response ? error.response.data : error.message);
+    //         console.log("Error fetching user:", error.response ? error.response.data : error.message);
     //         setIsAuth(false);
     //     } finally {
     //         setLoading(false);
