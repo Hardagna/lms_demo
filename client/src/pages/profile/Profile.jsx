@@ -26,7 +26,7 @@ const Profile = ({user}) => {
                 <div className="account-details">
                     <p><strong>Name: {user.name}</strong></p>
                     <p><strong>Email: {user.email}</strong></p>
-                    <button className="commonBtn"><MdSpaceDashboard />Dashboard</button>
+                    <button onClick={()=> navigate(`/${user._id}/dasboard`) } className="commonBtn"><MdSpaceDashboard />Dashboard</button>
 
                     <br />
 

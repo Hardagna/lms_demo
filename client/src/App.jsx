@@ -11,6 +11,7 @@ import Profile from './pages/profile/Profile';
 import { UserData } from './context/UserContext';
 import Courses from './pages/courses/Courses';
 import CourseDetails from './pages/courseDetails/CourseDetails';
+import Dashboard from './pages/dashboard/Dashboard';
 
 const App = () => {
 
@@ -27,7 +28,8 @@ const App = () => {
       <Route path="/login" element={ isAuth ? <Home />:<Login />} />
       <Route path="/register" element={ isAuth ? <Home />:<Register />} />
       <Route path="/verify" element={ isAuth ? <Home />:<Verify />} />
-      <Route path="/courses/course/:id" element={isAuth ? <CourseDetails />:<Login />} />
+      <Route path="/courses/course/:id" element={isAuth ? <CourseDetails user = {user} />:<Login />} />
+      <Route path="/:id/dashboard" element={isAuth ? <Dashboard user = {user} />:<Login />} />
     </Routes>
   </BrowserRouter>
   </>

@@ -1,14 +1,16 @@
-import React, { useEffect } from 'react'
-import './courseDetails.css'
-import { useParams } from 'react-router-dom'
+import React, { useEffect } from 'react';
+import './courseDetails.css';
+import { useParams, useNavigate } from 'react-router-dom';
 import { CourseData } from '../../context/CourseContext';
+import { server } from '../../main';
 
-const CourseDetails = () => {
+const CourseDetails = ({ user }) => {
     
     const params = useParams();
     // console.log(params.id);
-
-    const { fetchCourse } = CourseData();
+    const navigate = useNavigate();
+    // const { fetchUser } = UserData();
+    const { fetchCourse, course } = CourseData();
     
     useEffect(() => {
         fetchCourse(params.id);
@@ -16,7 +18,36 @@ const CourseDetails = () => {
     ,[]);
 
   return (
-    <div>CourseDetails</div>
+    <>
+    {course && <div className="courseDetails">
+        <div className="course-header">
+          <img src={`${server}/${course.image}`} alt="" className='course-img' />
+          <div className="course-details">
+            <h2>{course.title}</h2>
+            <p>Instructor: {course.instructor}</p>
+            <p>Price: {course.price}</p>
+            <p>Duration: {course.duration}</p>
+            <p>Category: {course.category}</p>
+          </div>
+          <p>Let's get started with {course.title} from next week</p>
+          {/* {
+            user && user.subscription.includes(course._id) ? (
+              <button onClick={()=> navigate(`/courses/course/enrolled/${course._id}`) } className="commonBtn">Enrolled</button>
+            ) : (
+              <button className="commonBtn">Enroll</button>
+            )
+          } */}
+          {user ?.subscription ?.includes(course._id) ? (
+              <button onClick={() => navigate(`/courses/course/enrolled/${course._id}`)} className="commonBtn">
+                  Enrolled
+              </button>
+          ) : (
+              <button className="commonBtn">Enroll</button>
+          )}
+
+        </div>
+      </div>}
+    </>
   )
 }
 

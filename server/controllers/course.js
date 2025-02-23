@@ -55,3 +55,13 @@ export const getLecture = async (req, res) => {
     res.status(404).json({ message: error.message });
   }
 };
+
+export const getMyCourse = async (req, res) => {
+  
+  try {
+    const courses = await Courses.find({ _id: req.user.subscription });
+    res.status(200).json({ courses, });
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+};
