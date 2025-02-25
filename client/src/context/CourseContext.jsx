@@ -12,7 +12,7 @@ export const CourseContextProvider = ({ children }) => {
     const [course, setCourse] = useState([]);
     // const [myCourse, setMyCourse] = useState([]);
 
-    async function getAllCourses() {
+    async function fetchCourses() {
         
         try {
 
@@ -57,12 +57,12 @@ export const CourseContextProvider = ({ children }) => {
     // }
 
     useEffect(() => {
-        getAllCourses();
+        fetchCourses();
         // fetchMyCourse();
     }, []);
 
   return (
-    <CourseContext.Provider value={{ courses, getAllCourses, fetchCourse, course }}>
+    <CourseContext.Provider value={{ courses, fetchCourses, fetchCourse, course }}>
       {children}
     </CourseContext.Provider>
   )

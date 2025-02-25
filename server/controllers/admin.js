@@ -96,7 +96,7 @@ export const getStats = async (req, res) => {
 
 export const getAllUsers = async (req, res) => {
     try {
-        const users = await User.find(_id:{ $ne: req.user._id }).select('-password');
+        const users = await User.find({ _id: { $ne: req.user._id }}).select('-password');
         res.status(200).json({ users, });
     } catch (error) {
         res.status(500).json({ message: error.message });

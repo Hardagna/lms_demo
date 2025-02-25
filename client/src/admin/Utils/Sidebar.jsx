@@ -43,7 +43,7 @@ const Sidebar = () => {
         </li>
 
         <li>
-          <Link to = {'/admin/dashboard'}>
+          <Link to = {'/profile'}>
             <div className="icon">
               <HiOutlineLogout />              
             </div>

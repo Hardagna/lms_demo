@@ -40,7 +40,7 @@ const AdminCourses = ({ user }) => {
         
     }; 
 
-    const { courses, getAllCourses } = CourseData();
+    const { courses, fetchCourses } = CourseData();
 
     const submitHandler = async (e) => {
         e.preventDefault();
@@ -66,7 +66,7 @@ const AdminCourses = ({ user }) => {
             toast.success(data.message);  
             setBtnLoading(false);
 
-            await getAllCourses();
+            await fetchCourses();
             setTitle('');
             setDescription('');
             setPrice('');
