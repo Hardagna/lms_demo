@@ -80,3 +80,16 @@ export const deleteCourse = async (req, res) => {
         console.log(error);
     }
 };
+
+export const getStats = async (req, res) => {
+    try {
+        const totalCourses = await Courses.countDocuments();
+        const totalLectures = await Lecture.countDocuments();
+        const totalUsers = await User.countDocuments();
+
+        res.status(200).json({ stats: { totalCourses, totalLectures, totalUsers }, });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+        console.log(error);
+    }
+};
