@@ -38,7 +38,7 @@ const App = () => {
       <Route path="/courses/course/lectures/:id" element={isAuth ? <Lecture user = {user} />:<Login />} />
 
       <Route path="/admin/dashboard" element={isAuth ? <AdminDashboard user = { user } />:<Login />} />
-      <Route path="/admin/courses" element={isAuth ? <AdminCourses user = { user } />:<Login />} />
+      <Route path="/admin/course" element={isAuth ? <AdminCourses user = { user } />:<Login />} />
 
     </Routes>
   </BrowserRouter>

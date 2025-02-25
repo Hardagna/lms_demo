@@ -93,3 +93,39 @@ export const getStats = async (req, res) => {
         console.log(error);
     }
 };
+
+export const getAllUsers = async (req, res) => {
+    try {
+        const users = await User.find(_id:{ $ne: req.user._id }).select('-password');
+        res.status(200).json({ users, });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+        console.log(error);
+    }
+};
+
+export const updateRole = async (req, res) => {
+    try {
+        const user = await User.findById(req.params.id);
+        if (user.role === 'user') {
+            user.role = 'admin';
+
+            await user.save();
+
+            res.status(200).json({ message: 'Role updated successfully', });
+        }
+        else {
+            user.role = 'user';
+
+            await user.save();
+
+            res.status(200).json({ message: 'Role updated successfully', });
+        }
+        // await user.save();
+        // res.status(200).json({ message: 'Role updated successfully', });
+    }
+    catch (error) {
+        res.status(500).json({ message: error.message });
+        console.log(error);
+    }
+};

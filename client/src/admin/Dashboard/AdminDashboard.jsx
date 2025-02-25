@@ -23,7 +23,14 @@ const AdminDashboard = ({ user }) => {
           token: localStorage.getItem('token'),
         },
     });
-    setStats(data.stats);
+    // setStats(data.stats);
+
+    if (data && data.stats) {
+      setStats(data.stats);
+    } else {
+      console.log("Stats data is missing or undefined");
+    }
+    
     } catch (error) {
       console.log(error);
   }
@@ -31,7 +38,7 @@ const AdminDashboard = ({ user }) => {
   
   useEffect(() => {
     getStats();
-  }, []);
+  }, [user, navigate]);
   
   return (
     <div>

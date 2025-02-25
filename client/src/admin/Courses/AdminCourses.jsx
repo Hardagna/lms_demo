@@ -4,6 +4,9 @@ import './adminCourses.css'
 import { useNavigate } from 'react-router-dom'
 import { CourseData } from '../../context/CourseContext'
 import CourseCards from '../../components/courseCards/CourseCards'
+import toast from 'react-hot-toast'
+import axios from 'axios'
+import { server } from '../../main'
 
 const categories = ['Web Development', 'Mobile Development', 'Game Development', 'Data Science', 'Machine Learning', 'Artificial Intelligence', 'Cyber Security', 'Ethical Hacking', 'UI/UX Design', 'Digital Marketing', 'SEO', 'Other'];
 
@@ -37,7 +40,48 @@ const AdminCourses = ({ user }) => {
         
     }; 
 
-  const { courses, getCourses} = CourseData();
+    const { courses, getAllCourses } = CourseData();
+
+    const submitHandler = async (e) => {
+        e.preventDefault();
+        setBtnLoading(true);
+
+        const formData = new FormData();
+        formData.append('title', title);
+        formData.append('description', description);
+        formData.append('price', price);
+        formData.append('duration', duration);
+        formData.append('category', category);
+        formData.append('instructor', instructor);
+        formData.append('image', image);
+
+        try {
+
+            const { data } = await axios.post(`${server}/api/courses/course/add`, formData, {
+                headers: {
+                    token: localStorage.getItem('token'),    
+                }
+            });
+
+            toast.success(data.message);  
+            setBtnLoading(false);
+
+            await getAllCourses();
+            setTitle('');
+            setDescription('');
+            setPrice('');
+            setDuration('');
+            setCategory('');
+            setInstructor('');
+            setImage('');
+            setImgPreview('');
+            
+        } catch (error) {
+            setBtnLoading(false);
+            toast.error(error.response.data.message);
+        }
+    }
+
 
   return (
     <Layout>
@@ -58,7 +102,7 @@ const AdminCourses = ({ user }) => {
             <div className="right">
                 <div className="add-course">
                     <div className="course-form">
-                        <form>
+                        <form onSubmit={submitHandler}>
                             <label htmlFor='text'>Title</label>
                             <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} required />
 
@@ -71,14 +115,22 @@ const AdminCourses = ({ user }) => {
                             <label htmlFor='text'>Instructor</label>
                             <input type="text" value={instructor} onChange={(e) => setInstructor(e.target.value)} required />
 
-                            <select value={category} onChange={(e) => setCategory(e.target.value)} required>
+                            {/* <select value={category} onChange={(e) => setCategory(e.target.value)} required>
                                 <option value="">Select category</option>
                                 {
                                     categories.map((e) => {
                                         <option value = {e} key= {e}>{e}</option>
                                     })
                                 }
+                            </select> */}
+
+                            <select value={category} onChange={(e) => setCategory(e.target.value)} required>
+                                <option value="">Select category</option>
+                                {categories.map((e) => (
+                                    <option value={e} key={e}>{e}</option> 
+                                ))}
                             </select>
+
 
                             <label htmlFor='text'>Duration</label>
                             <input type="number" value={duration} onChange={(e) => setDuration(e.target.value)} required />

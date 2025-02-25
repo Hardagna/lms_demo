@@ -32,7 +32,7 @@
 // //         setLectures(data.lectures);
 // //         setLoading(false);
 // //     } catch (error) {
-// //         console.error(error);
+// //         console.log(error);
 // //         setLoading(false);
 // //     }
 // // }
@@ -48,7 +48,7 @@
 // //         setLecture(data.lecture);
 // //         setLecLoading(false);
 // //     } catch (error) {
-// //         console.error(error);
+// //         console.log(error);
 // //         setLecLoading(false);
 // //     }
 // // }
@@ -75,7 +75,7 @@
 // //         setShow(false);
 // //         getLectures();
 // //     } catch (error) {
-// //         // console.error(error);
+// //         // console.log(error);
 // //         toast.error(error.response.data.message);
 // //         setBtnLoading(false);
 // //     }
@@ -208,7 +208,7 @@ async function getLectures() {
         setLectures(data.lectures);
         setLoading(false);
     } catch (error) {
-        console.error(error);
+        console.log(error);
         setLoading(false);
     }
 }
@@ -222,9 +222,10 @@ async function getLecture(id) {
             }
         });
         setLecture(data.lecture);
+        console.log("Lecture data", data.lecture);
         setLecLoading(false);
     } catch (error) {
-        console.error(error);
+        console.log(error);
         setLecLoading(false);
     }
 }
@@ -239,7 +240,7 @@ const submitHandler = async (e) => {
     formData.append("file", video);
 
     try {
-        const { data } = await axios.post(`${server}/api/courses/course/${params.id}`, formData, {
+        const { data } = await axios.post(`${server}/api/admin/course/add-lecture/${params.id}`, formData, {
             headers: {
                 token: localStorage.getItem("token"),
             }
@@ -261,7 +262,7 @@ const submitHandler = async (e) => {
 
 const deleteLectureHandler = async (id) => {
     try {
-        const { data } = await axios.delete(`${server}/api/courses/course/lecture/${id}`, {
+        const { data } = await axios.delete(`${server}/api/admin/course/delete-lecture/${id}`, {
             headers: {
                 token: localStorage.getItem("token"),
             }
@@ -287,13 +288,15 @@ const changeVideoHandler = (e) => {
 
 useEffect(() => {
     getLectures();
-}, []);
+    console.log("Lectures", lectures);
+}, [lecture]);
 
 return (
     <div className="lec-page">
         <div className="left">
             {lecture.video ? (
                 <>
+                    { console.log("Lecture", `${server}/${lecture.video}`) }
                     <video
                         src={`${server}/${lecture.video}`}
                         width={"100%"}
@@ -302,6 +305,7 @@ return (
                         disablePictureInPicture
                         disableRemotePlayback
                         autoPlay
+                        type="video/mp4"
                     />
                     <h1>{lecture.title}</h1>
                     <h3>{lecture.description}</h3>
@@ -328,7 +332,7 @@ return (
                         <input type="text" value={description} onChange={(e) => setDescription(e.target.value)} required />
 
                         <label htmlFor="video">Choose Video</label>
-                        <input type="file" accept="video/*" onChange={changeVideoHandler} required />
+                        <input type="file" onChange={changeVideoHandler} required />
 
                         {videoPreview && (
                             <video src={videoPreview} width={300} controls />
