@@ -6,8 +6,8 @@ import { upload } from '../middlewares/multer.js';
 const router = express.Router();
 
 router.post('/course/add', isAuth, isAdmin, upload, createCourse);
-router.post('/course/:id/add-lecture', isAuth, isAdmin, upload, addLecture);
-router.delete('/admin/delete-lecture/:id', isAuth, isAdmin, deleteLecture);
-router.delete('/admin/delete-course/:id', isAuth, isAdmin, deleteCourse);
+router.post('/course/add-lecture/:id', isAuth, isAdmin, upload, addLecture);
+router.delete('/course/delete-lecture/:id', isAuth, isAdmin, deleteLecture);
+router.delete('/course/delete-course/:id', isAuth, isAdmin, deleteCourse);
 
 export default router;

@@ -26,7 +26,17 @@ const Profile = ({user}) => {
                 <div className="account-details">
                     <p><strong>Name: {user.name}</strong></p>
                     <p><strong>Email: {user.email}</strong></p>
-                    <button onClick={()=> navigate(`/${user._id}/dasboard`) } className="commonBtn"><MdSpaceDashboard />Dashboard</button>
+                    <button onClick={() => navigate(`/courses/course/${course._id}`)} className="commonBtn"><MdSpaceDashboard />Dashboard</button>
+
+                    <br />
+
+                    {
+                        user.role === 'admin' && (
+                            <button onClick={() => navigate(`/admin/dashboard`)} className="commonBtn"><MdSpaceDashboard />Admin Dashboard</button>
+                        )
+                    }
+
+                    {/* <button onClick={() => navigate(`/admin/dashboard`)} className="commonBtn"><MdSpaceDashboard />Admin Dashboard</button> */}
 
                     <br />
 

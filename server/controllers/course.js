@@ -47,7 +47,7 @@ export const getLecture = async (req, res) => {
       return res.status(200).json({ lecture, });
     }
 
-    if (!user.subscription.includes(req.params.id)) {
+    if (!user.subscription.includes(lecture.course)) {
       return res.status(401).json({ message: "You need to subscribe to this course to access the lectures." });
     }
     res.status(200).json({ lecture, });

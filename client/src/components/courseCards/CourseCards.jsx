@@ -3,146 +3,91 @@ import './courseCards.css'
 import { server } from '../../main'
 import { UserData } from '../../context/UserContext'
 import { useNavigate } from 'react-router-dom'
-
-// const CourseCards = ({ course }) => {
-
-//   const navigate = useNavigate();
-//   const { user, isAuth } = UserData();
-//   return (
-//     <div className="course-cards">
-//         <img src={`${server}/${course.image}`} alt="" className='course-img' />
-//         <h3>{course.title}</h3>
-//         <p>
-//             Details: {course.description}
-//         </p>
-//         <p>
-//             Price: {course.price}
-//         </p>
-//         <p>
-//             Duration: {course.duration} weeks
-//         </p>
-//         <p>
-//             Instructor: {course.instructor}
-//         </p>
-//         <p>
-//             Category: {course.category}
-//         </p>
-
-//         {isAuth ? (
-//         <>
-//           {user && user.role !== "admin" ? (
-//             <>
-//               {user.subscription.includes(course._id) ? (
-//                 <button
-//                   onClick={() => navigate(`/courses/course/enroll/${course._id}`)}
-//                   className="commonBtn"
-//                 >
-//                   Enroll
-//                 </button>
-//               ) : (
-//                 <button
-//                   onClick={() => navigate(`/courses/course/${course._id}`)}
-//                   className="commonBtn"
-//                 >
-//                   Get Started
-//                 </button>
-//               )}
-//             </>
-//           ) : (
-//             <button
-//               onClick={() => navigate(`/courses/course/enroll/${course._id}`)}
-//               className="commonBtn"
-//             >
-//               Enroll
-//             </button>
-//           )}
-//         </>
-//       ) : (
-//         <button onClick={() => navigate("/login")} className="commonBtn">
-//           Get Started
-//         </button>
-//       )}
-
-//       <br />
-
-//       {user && user.role === "admin" && (
-//         <button
-//           onClick={() => deleteHandler(course._id)}
-//           className="commonBtn"
-//           style={{ background: 'red' }}
-//         >
-//           Delete
-//         </button>
-//       )}
-//     </div>
-//   )
-// }
+import toast from 'react-hot-toast'
+import axios from 'axios'
+import { CourseData } from '../../context/CourseContext'
 
 const CourseCards = ({ course }) => {
+
   const navigate = useNavigate();
   const { user, isAuth } = UserData();
+  const { fetchCourses } = CourseData();
 
-  // Debugging logs
-  console.log("User Data:", user);
-  console.log("User Subscription:", user?.subscription); // Avoids errors if undefined
-  console.log("Course Data:", course);
+  const handleDeleteCourse = async (id) => {
+    if (window.confirm('Are you sure you want to delete this course?')) {
+      try {
+        await axios.delete(`${server}/api/admin/course/delete-course/${id}`, {
+          headers: {
+            token: localStorage.getItem('token'),
+          }
+        });
+
+        fetchCourses();
+        toast.success(data.message);
+
+      } catch (error) {
+        // console.log(error);
+        toast.error(error.response.data.message);
+      }
+    }
+  }
 
   return (
     <div className="course-cards">
-      <img src={`${server}/${course.image}`} alt="" className="course-img" />
-      <h3>{course.title}</h3>
-      <p>Details: {course.description}</p>
-      <p>Price: {course.price}</p>
-      <p>Duration: {course.duration} weeks</p>
-      <p>Instructor: {course.instructor}</p>
-      <p>Category: {course.category}</p>
+        <img src={`${server}/${course.image}`} alt="" className='course-img' />
+        <h2>{course.title}</h2>
+        <h4>
+            Details: {course.description}
+        </h4>
+        <h4>
+            Instructor: {course.instructor}
+        </h4>
+        <h5>
+            Price: {course.price}
+        </h5>
+        <h5>
+            Duration: {course.duration} weeks
+        </h5>
+        <h5>
+            Category: {course.category}
+        </h5>
 
-      {isAuth ? (
-        <>
-          {user && user.role !== "admin" ? (
-            <>
-              {user?.subscription?.includes(course._id) ? ( // Safe check
-                <button
-                  onClick={() => navigate(`/courses/course/enrolled/${course._id}`)}
+        {
+          isAuth && (
+          <>
+            {user && user.role !== "admin" && (
+              <button onClick={() => navigate(`/courses/course/lectures/${course._id}`)} className='commonBtn'>
+                View Course
+              </button>
+            )}
+            {/* {user && user.role === "admin" && (
+              <button onClick={() => navigate(`/courses/course/lectures/${course._id}`)} className='commonBtn'>
+                Edit Course
+              </button>
+            )} */}
+
+            {user && user.role === "admin" && (
+              <div className="flex gap-2">
+                <button 
+                  onClick={() => navigate(`/courses/course/lectures/${course._id}`)} 
                   className="commonBtn"
                 >
-                  Enroll
+                  Edit Course
                 </button>
-              ) : (
-                <button
-                  onClick={() => navigate(`/courses/course/${course._id}`)}
+                <button 
+                  onClick={() => handleDeleteCourse(course._id)} 
                   className="commonBtn"
+                  style={{ background: 'red' }}
                 >
-                  Get Started
+                  Delete Course
                 </button>
-              )}
-            </>
-          ) : (
-            <button
-              onClick={() => navigate(`/courses/course/enroll/${course._id}`)}
-              className="commonBtn"
-            >
-              Enroll
-            </button>
-          )}
-        </>
-      ) : (
-        <button onClick={() => navigate("/login")} className="commonBtn">
-          Get Started
-        </button>
-      )}
+              </div>
+            )}
 
-      <br />
+          </>
+        )}
 
-      {user && user.role === "admin" && (
-        <button
-          onClick={() => deleteHandler(course._id)}
-          className="commonBtn"
-          style={{ background: "red" }}
-        >
-          Delete
-        </button>
-      )}
+
     </div>
   );
 };

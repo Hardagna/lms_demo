@@ -32,18 +32,31 @@
           margin-bottom: 5px;
         }
 
-        p {
+        h4 {
           font-size: 1rem;
           font-weight: 400;
           margin-bottom: 5px;
         }
 
+        h5 {
+          font-size: 1rem;
+          font-weight: 400;
+          margin-bottom: 5px;
+        }
+
+        a {
+          font-size: 1rem;
+          font-weight: 400;
+          margin-bottom: 5px;
+
+        }
+
     }
 
-    p {
+    /* p {
       font-size: 1rem;
       font-weight: 400;
       margin-bottom: 5px;
-    }
+    } */
   }
 }

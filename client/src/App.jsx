@@ -11,7 +11,9 @@ import Profile from './pages/profile/Profile';
 import { UserData } from './context/UserContext';
 import Courses from './pages/courses/Courses';
 import CourseDetails from './pages/courseDetails/CourseDetails';
-import Dashboard from './pages/dashboard/Dashboard';
+import Lecture from './pages/lecture/Lecture';
+// import Dashboard from './pages/dashboard/Dashboard';
+// import CourseSpace from './pages/courseSpace/CourseSpace';
 
 const App = () => {
 
@@ -29,7 +31,10 @@ const App = () => {
       <Route path="/register" element={ isAuth ? <Home />:<Register />} />
       <Route path="/verify" element={ isAuth ? <Home />:<Verify />} />
       <Route path="/courses/course/:id" element={isAuth ? <CourseDetails user = {user} />:<Login />} />
-      <Route path="/:id/dashboard" element={isAuth ? <Dashboard user = {user} />:<Login />} />
+      {/* <Route path="/courses/course/:id" element={isAuth ? <Dashboard user = {user} />:<Login />} /> */}
+      {/* <Route path="/courses/course//:id" element={isAuth ? <CourseSpace user = {user} />:<Login />} /> */}
+      <Route path="/courses/course/lectures/:id" element={isAuth ? <Lecture user = {user} />:<Login />} />
+
     </Routes>
   </BrowserRouter>
   </>
